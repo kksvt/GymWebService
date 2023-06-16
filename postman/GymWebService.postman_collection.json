@@ -250,11 +250,12 @@
 					}
 				},
 				"url": {
-					"raw": "{{api_url}}/member/:memberId",
+					"raw": "{{api_url}}/admin/member/:memberId",
 					"host": [
 						"{{api_url}}"
 					],
 					"path": [
+						"admin",
 						"member",
 						":memberId"
 					],
@@ -316,11 +317,12 @@
 					}
 				},
 				"url": {
-					"raw": "{{api_url}}/classes",
+					"raw": "{{api_url}}/admin/classes",
 					"host": [
 						"{{api_url}}"
 					],
 					"path": [
+						"admin",
 						"classes"
 					]
 				}
@@ -342,11 +344,12 @@
 					}
 				},
 				"url": {
-					"raw": "{{api_url}}/classes",
+					"raw": "{{api_url}}/admin/classes",
 					"host": [
 						"{{api_url}}"
 					],
 					"path": [
+						"admin",
 						"classes"
 					]
 				}
