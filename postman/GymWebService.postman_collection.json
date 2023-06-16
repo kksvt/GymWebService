@@ -1,0 +1,793 @@
+{
+	"info": {
+		"_postman_id": "9ca3ffd1-5d7f-4eb0-885b-a5d453e00a2b",
+		"name": "GymWebService",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26310291"
+	},
+	"item": [
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\": \"admin\",\r\n    \"lastName\": \"{{$randomLastName}}\",\r\n    \"email\": \"{{$randomEmail}}\",\r\n    \"membershipDateStart\": \"2023-06-03\",\r\n    \"password\": \"hehe\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api_url}}/auth/register",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Auth as admin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set('token', pm.response.json().token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"{{admin_email}}\",\r\n    \"password\": \"{{admin_password}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api_url}}/auth/authenticate",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"auth",
+						"authenticate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Auth as user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set('token', pm.response.json().token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"{{user_email}}\",\r\n    \"password\": \"{{user_password}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api_url}}/auth/authenticate",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"auth",
+						"authenticate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "(User) View profile",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api_url}}/profile",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"profile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "(User) Change profile",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\": \"{{$randomFirstName}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api_url}}/profile",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"profile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "(Admin) Get Members",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api_url}}/admin/members",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"admin",
+						"members"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "(Admin) Get a Member",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api_url}}/admin/member/:memberId",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"admin",
+						"member",
+						":memberId"
+					],
+					"variable": [
+						{
+							"key": "memberId",
+							"value": "202"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "(Admin) Make a Member inactive",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": {{$randomInt}},\r\n    \"firstName\": \"Rafał\",\r\n    \"lastName\": \"Kawa\",\r\n    \"inActive\": \"false\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api_url}}/member/:memberId",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"member",
+						":memberId"
+					],
+					"variable": [
+						{
+							"key": "memberId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Classes",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api_url}}/classes?level=BEGINNER",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"classes"
+					],
+					"query": [
+						{
+							"key": "level",
+							"value": "BEGINNER"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "(Admin) Post a class",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Boxing\",\r\n    \"description\": \"Boxing class for beginners\",\r\n    \"level\": \"BEGINNER\",\r\n    \"gender\": \"BOTH\",\r\n    \"instructor\": \"Vida.Willms@yahoo.com\",\r\n    \"type\": \"BOXING\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api_url}}/classes",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"classes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "(Admin) Post another class",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Male Elite Powerlifting Class\",\r\n    \"description\": \"Powerlifting for the most elite of powerlifters\",\r\n    \"level\": \"ELITE\",\r\n    \"gender\": \"MALE\",\r\n    \"instructor\": \"{{$randomFullName}}\",\r\n    \"type\": \"WEIGHTLIFTING\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api_url}}/classes",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"classes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a class",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api_url}}/classes/:classId",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"classes",
+						":classId"
+					],
+					"variable": [
+						{
+							"key": "classId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "(AdmIn) Add a class date",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"startTime\": \"15:30:00\",\r\n    \"endTime\": \"18:15:00\",\r\n    \"dayOfWeek\": \"MONDAY\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api_url}}/admin/classes/:classId/dates",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"admin",
+						"classes",
+						":classId",
+						"dates"
+					],
+					"variable": [
+						{
+							"key": "classId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "(Admin) Delete class date",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{api_url}}/admin/classes/:classId/dates/:dateId",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"admin",
+						"classes",
+						":classId",
+						"dates",
+						":dateId"
+					],
+					"variable": [
+						{
+							"key": "classId",
+							"value": "1"
+						},
+						{
+							"key": "dateId",
+							"value": "8"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "(Admin) Add an invalid class",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"type\": \"BOXING\",\r\n    \"level\": \"BEGINNER\",\r\n    \"instructor\": \"Bruh Moment\",\r\n    \"description\": \"For the goats\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api_url}}/admin/classes",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"admin",
+						"classes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "(Admin) Get enrolled members",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api_url}}/admin/classes/:classId/members",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"admin",
+						"classes",
+						":classId",
+						"members"
+					],
+					"variable": [
+						{
+							"key": "classId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "(User) Sign up for a class",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{api_url}}/classes/:classId",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"classes",
+						":classId"
+					],
+					"variable": [
+						{
+							"key": "classId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "(User) View all profile classes",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api_url}}/profile/classes",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"profile",
+						"classes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "(User) Withdraw from a class",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{api_url}}/profile/classes/:classId",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"profile",
+						"classes",
+						":classId"
+					],
+					"variable": [
+						{
+							"key": "classId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "All reviews",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api_url}}/reviews/classes",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"reviews",
+						"classes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "(User) Leave a review",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"rating\": 5,\r\n    \"ratingDesc\": \"The classes are magnificent\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api_url}}/reviews/classes/:classId",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"reviews",
+						"classes",
+						":classId"
+					],
+					"variable": [
+						{
+							"key": "classId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "(User) Get instances of a class",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api_url}}/classes/:classId/instances",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"classes",
+						":classId",
+						"instances"
+					],
+					"variable": [
+						{
+							"key": "classId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "(Admin) Add all instances for the week",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{api_url}}/admin/instances",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"admin",
+						"instances"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "(Admin) Add a custom instance",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"start\": \"2023-06-16T04:30:00\",\r\n    \"end\": \"2023-06-16T07:33:10\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api_url}}/admin/classes/:classId/instances",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"admin",
+						"classes",
+						":classId",
+						"instances"
+					],
+					"variable": [
+						{
+							"key": "classId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "api_url",
+			"value": "http://localhost:8080"
+		}
+	]
+}
